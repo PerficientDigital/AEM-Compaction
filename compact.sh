@@ -22,13 +22,13 @@ function compact
 	echo "Pre-compaction repository size: ${repospace}..." | tee -a $logfile
 	
 	echo "Finding old checkpoints..." | tee -a $logfile
-	java -jar $oakrun checkpoints $crxdir/repository/segmentstore >> $logfile
+	java -Dtar.memoryMapped=true -Xmx8g -jar $oakrun checkpoints $crxdir/repository/segmentstore >> $logfile
 
 	echo "Deleting unreferenced checkpoints..."
-	java -jar $oakrun checkpoints $crxdir/repository/segmentstore rm-unreferenced >> $logfile
+	java -Dtar.memoryMapped=true -Xmx8g -jar $oakrun checkpoints $crxdir/repository/segmentstore rm-unreferenced >> $logfile
 	
 	echo "Running compaction. This may take a while..."
-	java -jar $oakrun compact $crxdir/repository/segmentstore >> $logfile
+	java -Dtar.memoryMapped=true -Xmx8g -jar $oakrun compact $crxdir/repository/segmentstore >> $logfile
 
 	echo "Compaction complete. Please check the log at: $logfile" | tee -a $logfile
 
